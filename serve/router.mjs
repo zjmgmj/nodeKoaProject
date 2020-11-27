@@ -13,10 +13,16 @@ class Routers {
       ctx.response.type = 'text/html'
       ctx.response.body = '<h1>test</h1>'
     })
-    router.get('/search/:seachName', function(ctx, next) {
-      console.log(ctx.params)
+    router.get('/baiduSearch/:searchName', async (ctx, next) => {
+      console.log('--------------------s')
+      console.log(ctx)
+      await next()
+      const params = ctx.params
+      ctx.response.type = 'text/html'
+      ctx.response.body = `${JSON.stringify(params)}`
       const baiduSearch = new BaiduSearch()
-      baiduSearch.search(ctx.params)
+      console.log('--------------------s')
+      baiduSearch.search(params)
     })
     app.use(router.routes())
     app.use(router.allowedMethods())
