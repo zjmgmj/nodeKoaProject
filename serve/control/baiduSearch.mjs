@@ -2,24 +2,54 @@ import puppeteer from 'puppeteer'
 // import chalk from 'chalk'
 
 class BaiduSearch {
-  async search (params) {
-    const browser = await puppeteer.launch({devtools: true})
-    const page = await browser.newPage()
-    // page.on('console', msg => {
-    //   console.dir(msg.text())
-    // })
-    // const {searchName} = params
-    console.log('params', params)
-    await page.goto('https://baidu.com')
-    // console.log(page.$('.s_ipt'))
-    // page.$('.s_ipt').value = searchName
-    await page.type('.s_ipt', params.searchName)
-    const searchBtn = await page.$('#su')
-    searchBtn.click()
-    // element.value = params.searchName
-    // await page.screenshot({path: 'baidu.png'})
-    // await browser.close()
-    return this
+  #browser;
+  #page;
+  #launchConfig;
+  #url;
+  constructor({launchConfig, url}) {
+    this.#url = url || 'https://baidu.com'
+    this.#launchConfig = launchConfig || {
+      devtools: true, // 开启开发者控制台
+      headless: false // 开启浏览器界面
+    }
+  }
+  async init() {
+    this.#browser = await puppeteer.launch(this.#launchConfig) 
+    this.#page = await this.#browser.newPage()
+  }
+  async start (params) {
+    await this.init()
+    console.log(this.#url)
+    try{
+      await this.#page.goto(this.#url)
+      await this.#page.setRequestInterception(true)
+      
+      // await this.#page.type('.search-input', params.searchName)
+      // const searchBtn = await this.#page.$('.search-icon')
+      // searchBtn.click()
+      const res = await this.#page.$$eval('.item', res => {
+        return new Promise(resolve => {
+          console.log(res)
+          resolve(res)
+        })
+      })
+      for(let i=0; i<res.length; i++){
+        const ele = res[i]
+        console.log(ele)
+        console.log(ele.valueOf())
+      }
+      // const elements = await this.#page.$$('.item')
+      // console.log(elements)
+      // for(let i=0; i<elements.length; i++){
+      //   const ele = elements[i]
+      //   const titleEle = await ele.$('.title')
+      //   ele.page
+      //   console.log(titleEle)
+      // }
+      // await browser.close()
+    }catch(e){
+      console.log(e)
+    }
   }
 }
 

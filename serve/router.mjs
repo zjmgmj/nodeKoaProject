@@ -20,9 +20,9 @@ class Routers {
       const params = ctx.params
       ctx.response.type = 'text/html'
       ctx.response.body = `${JSON.stringify(params)}`
-      const baiduSearch = new BaiduSearch()
+      const baiduSearch = new BaiduSearch({url: 'https://juejin.cn/'})
       console.log('--------------------s')
-      baiduSearch.search(params)
+      baiduSearch.start(params)
     })
     app.use(router.routes())
     app.use(router.allowedMethods())
