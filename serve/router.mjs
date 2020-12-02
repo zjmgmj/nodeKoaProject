@@ -14,8 +14,6 @@ class Routers {
       ctx.response.body = '<h1>test</h1>'
     })
     router.get('/baiduSearch/:searchName', async (ctx, next) => {
-      console.log('--------------------s')
-      console.log(ctx)
       await next()
       const params = ctx.params
       ctx.response.type = 'text/html'
