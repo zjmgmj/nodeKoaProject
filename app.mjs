@@ -4,7 +4,12 @@
 // const router = new Router()
 
 import Routers from './serve/router.mjs'
+import DbModel from './serve/models/Init.mjs'
 const router = new Routers()
+
+const dbModel = new DbModel()
+dbModel.init()
+
 console.log('routers', router)
 router.start()
 
