@@ -19,7 +19,7 @@ class BaiduSearch {
   #db;
   constructor({launchConfig={
     devtools: false, // 开启开发者控制台
-    headless: true, // 开启浏览器界面
+    headless: false, // 开启浏览器界面
     defaultViewport: {
       width: 1500,
       height: 900
@@ -28,7 +28,7 @@ class BaiduSearch {
     // super()
     this.#url = url || 'https://baidu.com'
     this.#launchConfig = {}
-    this.#cookieStr = cookieStr || 'MONITOR_WEB_ID=6bc745dc-326e-4e9b-88cb-2bb7a6d7a0d2; passport_csrf_token=d384633af8f286679dab8385390d752a; n_mh=6vELKnfA5uzIYntn5feMIiOtxZfci30gvZxOq-3V0sw; sid_guard=7aa16b91472d4e7a9dc3acfffe9e2a33%7C1605862975%7C5184000%7CTue%2C+19-Jan-2021+09%3A02%3A55+GMT; uid_tt=456ff4b3962bd35ee0f88c520fbd02a5; uid_tt_ss=456ff4b3962bd35ee0f88c520fbd02a5; sid_tt=7aa16b91472d4e7a9dc3acfffe9e2a33; sessionid=7aa16b91472d4e7a9dc3acfffe9e2a33; sessionid_ss=7aa16b91472d4e7a9dc3acfffe9e2a33; _ga=GA1.2.558510534.1606465177'
+    this.#cookieStr = cookieStr
     this.#db = db
   }
   async init() {
