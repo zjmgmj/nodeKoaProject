@@ -1,5 +1,5 @@
 import sequelizePkg from 'sequelize'
-const {DataTypes, Model} = sequelizePkg
+const {DataTypes} = sequelizePkg
 class Juejin {
   sequelize;
   constructor(sequelize) {

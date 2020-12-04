@@ -2,9 +2,10 @@ import puppeteer from 'puppeteer'
 // import Fs from './fs.mjs'
 // import fs from 'fs'
 import Juejin from '../models/Juejin.mjs'
+import db from '../database/db.mjs'
 // import chalk from 'chalk'
 
-class BaiduSearch {
+class Reptile {
   #browser;
   #page;
   #launchConfig;
@@ -16,7 +17,6 @@ class BaiduSearch {
     'content_api/v1/article/detail',
     'recommend_api/v1/article/recommend_all_feed'
   ]
-  #db;
   constructor({launchConfig={
     devtools: false, // 开启开发者控制台
     headless: false, // 开启浏览器界面
@@ -24,12 +24,11 @@ class BaiduSearch {
       width: 1500,
       height: 900
     }
-  }, url, cookieStr, db}) {
+  }, url, cookieStr}) {
     // super()
     this.#url = url || 'https://baidu.com'
     this.#launchConfig = {}
     this.#cookieStr = cookieStr
-    this.#db = db
   }
   async init() {
     this.#browser = await puppeteer.launch(this.#launchConfig) 
@@ -80,7 +79,7 @@ class BaiduSearch {
       const {data} = JSON.parse(res)
       console.log(data)
       if(data){
-        const JuejinDb = new Juejin(this.#db)
+        const JuejinDb = new Juejin(db)
         const list = []
         data.map(item => {
           const info = item.item_info
@@ -124,4 +123,4 @@ class BaiduSearch {
   }
 }
 
-export default BaiduSearch
+export default Reptile

@@ -1,10 +1,9 @@
 import Koa from 'koa'
 import Router from 'koa-router'
-import db from './database/db.mjs'
 const router = new Router()
 const app = new Koa()
 
-import BaiduSearch from './control/baiduSearch.mjs'
+import Reptile from './control/Reptile.mjs'
 
 class Routers {
   start() {
@@ -19,9 +18,8 @@ class Routers {
       const params = ctx.params
       ctx.response.type = 'text/html'
       ctx.response.body = `${JSON.stringify(params)}`
-      const baiduSearch = new BaiduSearch({url: 'https://juejin.cn/', db})
-      console.log('--------------------s')
-      baiduSearch.start(params)
+      const reptile = new Reptile({url: 'https://juejin.cn/'})
+      reptile.start(params)
     })
     app.use(router.routes())
     app.use(router.allowedMethods())

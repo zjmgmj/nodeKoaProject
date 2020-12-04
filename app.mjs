@@ -7,6 +7,9 @@ import Routers from './serve/router.mjs'
 import DbModel from './serve/models/Init.mjs'
 const router = new Routers()
 
+/**
+ * 初始化数据库
+ */
 const dbModel = new DbModel()
 dbModel.init()
 
