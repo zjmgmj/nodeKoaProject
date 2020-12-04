@@ -1,25 +1,24 @@
 import db from '../database/db.mjs'
 
-import Test from './Test.mjs'
+// import Test from './Test.mjs'
+import Juejin from './Juejin.mjs'
 
 class Init {
-  modelList = [Test]
+  modelList = [Juejin]
   constructor() {}
   async init() {
     try {
       await db.authenticate()
-      console.log('连接成功')
-      this.modelList.map(model => {
-        this.createModel(model)
+      console.log('success')
+      this.modelList.map(dbModel => {
+        // this.createModel(model)
+        const model = new dbModel(db)
+        model.init()
       })
       await db.sync({force: true})
     } catch (error) {
-      console.log('连接失败', error)
+      console.log('error', error)
     }
-  }
-  createModel(dbModel) {
-    const model = new dbModel(db)
-    model.createModel()
   }
 }
 

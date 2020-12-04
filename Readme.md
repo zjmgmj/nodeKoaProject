@@ -1,5 +1,6 @@
 ### 数据库配置
-  *  [Sequelize](https://www.sequelize.com.cn/core-concepts/model-basics)
+  * [Sequelize](https://www.sequelize.com.cn/core-concepts/model-basics)
+  * [Sequelize](https://github.com/demopark/sequelize-docs-Zh-CN)
 
 ### 项目结构
   |-serve

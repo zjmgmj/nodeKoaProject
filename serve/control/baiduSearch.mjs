@@ -1,6 +1,7 @@
 import puppeteer from 'puppeteer'
 // import Fs from './fs.mjs'
-import fs from 'fs'
+// import fs from 'fs'
+import Juejin from '../models/Juejin.mjs'
 // import chalk from 'chalk'
 
 class BaiduSearch {
@@ -15,18 +16,20 @@ class BaiduSearch {
     'content_api/v1/article/detail',
     'recommend_api/v1/article/recommend_all_feed'
   ]
+  #db;
   constructor({launchConfig={
     devtools: false, // 开启开发者控制台
-    headless: false, // 开启浏览器界面
+    headless: true, // 开启浏览器界面
     defaultViewport: {
       width: 1500,
       height: 900
     }
-  }, url, cookieStr}) {
+  }, url, cookieStr, db}) {
     // super()
     this.#url = url || 'https://baidu.com'
     this.#launchConfig = {}
     this.#cookieStr = cookieStr || 'MONITOR_WEB_ID=6bc745dc-326e-4e9b-88cb-2bb7a6d7a0d2; passport_csrf_token=d384633af8f286679dab8385390d752a; n_mh=6vELKnfA5uzIYntn5feMIiOtxZfci30gvZxOq-3V0sw; sid_guard=7aa16b91472d4e7a9dc3acfffe9e2a33%7C1605862975%7C5184000%7CTue%2C+19-Jan-2021+09%3A02%3A55+GMT; uid_tt=456ff4b3962bd35ee0f88c520fbd02a5; uid_tt_ss=456ff4b3962bd35ee0f88c520fbd02a5; sid_tt=7aa16b91472d4e7a9dc3acfffe9e2a33; sessionid=7aa16b91472d4e7a9dc3acfffe9e2a33; sessionid_ss=7aa16b91472d4e7a9dc3acfffe9e2a33; _ga=GA1.2.558510534.1606465177'
+    this.#db = db
   }
   async init() {
     this.#browser = await puppeteer.launch(this.#launchConfig) 
@@ -73,16 +76,29 @@ class BaiduSearch {
   async start (params) {
     await this.init()
     try{
-      const {data} = await this.getData()
-      fs.writeFile('test.json', data, (err) => {
-        console.log(err)
-      })
-      // return new Promise(resolve => {
-      //   this.getData().then(res => {
-      //     resolve(res)
-      //   })
-      //   this.#page.reload()
-      // })
+      const res = await this.getData()
+      const {data} = JSON.parse(res)
+      console.log(data)
+      if(data){
+        const JuejinDb = new Juejin(this.#db)
+        const list = []
+        data.map(item => {
+          const info = item.item_info
+          if(info.article_id) {
+            const articleInfo = info.article_info
+            const data = {
+              articleId: info.article_id,
+              title: articleInfo.title,
+              briefContent: articleInfo.brief_content
+            }
+            list.push(data)
+          }
+        })
+        console.log(JSON.stringify(list))
+        JuejinDb.add(list)
+      }
+      
+      
       
       // const resData = await this.#page.$$eval('.entry-list .item .title', async (elemets) => {
       //   // 可在页面执行js

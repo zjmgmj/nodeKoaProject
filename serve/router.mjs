@@ -1,5 +1,6 @@
 import Koa from 'koa'
 import Router from 'koa-router'
+import db from './database/db.mjs'
 const router = new Router()
 const app = new Koa()
 
@@ -18,7 +19,7 @@ class Routers {
       const params = ctx.params
       ctx.response.type = 'text/html'
       ctx.response.body = `${JSON.stringify(params)}`
-      const baiduSearch = new BaiduSearch({url: 'https://juejin.cn/'})
+      const baiduSearch = new BaiduSearch({url: 'https://juejin.cn/', db})
       console.log('--------------------s')
       baiduSearch.start(params)
     })
