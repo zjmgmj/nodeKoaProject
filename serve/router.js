@@ -1,4 +1,5 @@
-const BookControl = require('./control/book/biquge.js')
+const BookControl = require('./control/book/biquge')
+const JuejinControl = require('./control/juejin/Control')
 const Koa = require('koa')
 const Router = require('koa-router')
 const router = new Router()
@@ -11,6 +12,11 @@ module.exports = {
       await next()
       ctx.response.type = 'text/html'
       ctx.response.body = '<h1>test</h1>'
+    })
+    router.get('/juejin', async (ctx, next) => {
+      await next()
+      const Juejin = new JuejinControl()
+      Juejin.start()
     })
     router.get('/biquge/crawlingCategory', async (ctx, next) => {
       await next()
