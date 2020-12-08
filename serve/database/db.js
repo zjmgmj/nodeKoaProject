@@ -1,5 +1,5 @@
-import sequelize from 'sequelize'
-import config from './config.mjs'
+const sequelize = require('sequelize')
+const config = require('./config.js')
 
 const db = new sequelize.Sequelize(config.database, config.username, config.pw, { 
   host: config.host, 
@@ -15,4 +15,4 @@ const db = new sequelize.Sequelize(config.database, config.username, config.pw, 
   }
 })
 
-export default db
+module.exports = db

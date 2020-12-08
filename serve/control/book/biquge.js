@@ -1,5 +1,6 @@
-import Reptile from '../Reptile.mjs'
-import CategoryModel from '../../models/Book/Category.mjs'
+const Reptile = require('../Reptile')
+const CategoryModel = require('../../models/Book/Category')
+
 class Biquge extends Reptile {
   constructor() {
     super()
@@ -15,8 +16,7 @@ class Biquge extends Reptile {
   }
   async crawlingCategory() {
     // 获取分类
-    this.url = 'http://www.xbiquge.la/'
-    await this.init()
+    await this.init('http://www.xbiquge.la/')
     const categoryList = await this.page.$$eval('.nav li a', async (elemets) => {
       console.log(elemets)
       const list = []
@@ -39,4 +39,4 @@ class Biquge extends Reptile {
   async start() {}
 }
 
-export default Biquge
+module.exports = Biquge

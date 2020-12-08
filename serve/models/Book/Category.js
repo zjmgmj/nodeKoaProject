@@ -1,9 +1,8 @@
-import Base from '../base.mjs'
+const Base = require('../base.js')
 
 class Category extends Base {
   constructor(){
     super()
-    // this.db = sequelize
     this.modelName = 'BookCategory'
   }
   init() {
@@ -21,4 +20,4 @@ class Category extends Base {
     });
   }
 }
-export default Category
+module.exports = Category

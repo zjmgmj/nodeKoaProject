@@ -1,11 +1,10 @@
-import Koa from 'koa'
-import Router from 'koa-router'
-import JuejinControl from './control/juejin/Control.mjs'
-import BookControl from './control/book/biquge.mjs'
+const BookControl = require('./control/book/biquge.js')
+const Koa = require('koa')
+const Router = require('koa-router')
 const router = new Router()
 const app = new Koa()
 
-class Routers {
+module.exports = {
   start() {
     router.get('/test', async (ctx, next) => {
       console.log('-------------------test')
@@ -18,14 +17,14 @@ class Routers {
       const book = new BookControl()
       book.crawlingCategory()
     })
-    router.get('/search/:searchName', async (ctx, next) => {
-      await next()
-      const params = ctx.params
-      ctx.response.type = 'text/html'
-      ctx.response.body = `${JSON.stringify(params)}`
-      const Juejin = new JuejinControl()
-      Juejin.start(params)
-    })
+    // router.get('/search/:searchName', async (ctx, next) => {
+    //   await next()
+    //   const params = ctx.params
+    //   ctx.response.type = 'text/html'
+    //   ctx.response.body = `${JSON.stringify(params)}`
+    //   const Juejin = new JuejinControl()
+    //   Juejin.start(params)
+    // })
     app.use(router.routes())
     app.use(router.allowedMethods())
     app.listen(3000, () => {
@@ -33,5 +32,3 @@ class Routers {
     })
   }
 }
-
-export default Routers

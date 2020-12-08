@@ -1,6 +1,5 @@
-import sequelize from 'sequelize'
-import db from '../database/db.mjs'
-const {DataTypes} = sequelize
+const {DataTypes} = require('sequelize')
+const db = require('../database/db')
 
 class Base {
   constructor(){
@@ -16,4 +15,4 @@ class Base {
     }
   }
 }
-export default Base
+module.exports = Base

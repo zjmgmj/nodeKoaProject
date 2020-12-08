@@ -1,5 +1,4 @@
-import sequelizePkg from 'sequelize'
-const {DataTypes} = sequelizePkg
+const {DataTypes} = require('sequelize')
 class Juejin {
   sequelize;
   constructor(sequelize) {
@@ -30,4 +29,4 @@ class Juejin {
     }
   }
 }
-export default Juejin
+module.exports = Juejin

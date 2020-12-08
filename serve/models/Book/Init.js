@@ -1,8 +1,9 @@
-import BookList from './BookList.mjs'
-import BookCategory from './Category.mjs'
-import BookDetail from './Detail.mjs'
-import Base from '../base.mjs'
-class Init extends (Base) {
+const BookList = require('./BookList')
+const BookCategory = require('./Category')
+const BookDetail = require('./Detail')
+const Base = require('../base')
+
+class Init extends Base {
   constructor() {
     super()
     this.bookCategoryModel = new BookCategory()
@@ -18,4 +19,4 @@ class Init extends (Base) {
     console.log('----------------hasMany')
   }
 }
-export default Init
+module.exports = Init

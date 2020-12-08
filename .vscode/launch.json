@@ -14,7 +14,7 @@
       "runtimeExecutable": "nodemon", // 或者 node-dev
       "restart": true,
       "console": "integratedTerminal",
-      "program": "${workspaceFolder}\\app.mjs"
+      "program": "${workspaceFolder}\\app.js"
     }
   ]
 }

@@ -1,10 +1,6 @@
-import db from '../database/db.mjs'
-// import Test from './Test.mjs'
-import Juejin from './Juejin.mjs'
-// import BookList from './Book/BookList.mjs'
-// import BookCategory from './Book/Category.mjs'
-// import BookDetail from './Book/Detail.mjs'
-import Book from './Book/Init.mjs'
+const db = require('../database/db')
+const Book = require('./Book/Init')
+const Juejin = require('./Juejin')
 class Init {
   modelList = [Juejin]
   constructor() {
@@ -30,4 +26,4 @@ class Init {
   }
 }
 
-export default Init
+module.exports = Init

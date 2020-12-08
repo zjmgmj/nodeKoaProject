@@ -6,4 +6,4 @@ const config = {
   port: '3306',
   dialect: 'mysql'
 }
-export default config
+module.exports = config
