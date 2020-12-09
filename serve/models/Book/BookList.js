@@ -1,29 +1,29 @@
-const {DataTypes} = require('sequelize')
-class BookList {
-  sequelize;
-  constructor(sequelize){
-    this.sequelize = sequelize
+const Base = require('../base.js')
+class BookList extends Base {
+  constructor(){
+    super()
+    this.modelName = 'BookList'
   }
   init() {
-    this.sequelize.define('BookList', {
+    this.db.define(this.modelName, {
       categoryId: {
-        type: DataTypes.BIGINT,
+        type: this.DataTypes.BIGINT,
         comment: '分类ID'
       },
-      bookId: {
-        type: DataTypes.BIGINT,
-        primaryKey: true,
-        comment: '书籍ID'
-      },
       bookName: {
-        type: DataTypes.STRING,
+        type: this.DataTypes.STRING,
         allowNull: false,
         comment: '书名'
       },
       author: {
-        type: DataTypes.STRING,
+        type: this.DataTypes.STRING,
         allowNull: true,
         comment: '作者'
+      },
+      source: {
+        type: this.DataTypes.STRING,
+        allowNull: true,
+        comment: '来源'
       }
     });
   }

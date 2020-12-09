@@ -14,5 +14,12 @@ class Base {
       modelDb.create(params)
     }
   }
+  async findAll(where, modelName) {
+    const modelDb = this.db.models[modelName]
+    const config = {raw: true}
+    if(where) config.where = config
+    const list = await modelDb.findAll(config)
+    return list
+  }
 }
 module.exports = Base

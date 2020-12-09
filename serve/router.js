@@ -23,6 +23,11 @@ module.exports = {
       const book = new BookControl()
       book.crawlingCategory()
     })
+    router.get('/biquge/crawlingBookList', async (ctx, next) => {
+      await next()
+      const book = new BookControl()
+      book.crawlingBookList()
+    })
     // router.get('/search/:searchName', async (ctx, next) => {
     //   await next()
     //   const params = ctx.params
