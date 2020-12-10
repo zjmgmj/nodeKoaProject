@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer')
-const db = require('../database/db')
+// const db = require('../database/db')
 class Reptile {
   browser;
   page;
@@ -8,7 +8,7 @@ class Reptile {
   cookie;
   cookieStr;
   constructor() {
-    this.db = db
+    // this.db = db
   }
   async init(url) {
     this.browser = await puppeteer.launch(this.launchConfig) 

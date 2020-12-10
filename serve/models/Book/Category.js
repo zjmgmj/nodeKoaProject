@@ -1,4 +1,4 @@
-const Base = require('../base.js')
+const Base = require('../base')
 
 class Category extends Base {
   constructor(){

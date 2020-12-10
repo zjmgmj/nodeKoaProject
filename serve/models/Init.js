@@ -15,7 +15,7 @@ class Init {
         const model = new dbModel(db)
         model.init()
       })
-      // bookModels.hasMany()
+      bookModels.hasMany()
       db.sync({ alter: true })
       // db.sync() - 如果表不存在,则创建该表(如果已经存在,则不执行任何操作)
       // db.sync({ force: true }) // - 将创建表,如果表已经存在,则将其首先删除

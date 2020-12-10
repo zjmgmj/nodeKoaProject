@@ -1,4 +1,4 @@
-const Base = require('../base.js')
+const Base = require('../base')
 class BookList extends Base {
   constructor(){
     super()
@@ -6,10 +6,6 @@ class BookList extends Base {
   }
   init() {
     this.db.define(this.modelName, {
-      categoryId: {
-        type: this.DataTypes.BIGINT,
-        comment: '分类ID'
-      },
       bookName: {
         type: this.DataTypes.STRING,
         allowNull: false,

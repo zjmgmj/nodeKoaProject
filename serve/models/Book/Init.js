@@ -8,15 +8,36 @@ class Init extends Base {
     super()
     this.bookCategoryModel = new BookCategory()
     this.bookListModel = new BookList()
+    this.BookDetailModel = new BookDetail()
     this.modelList = [BookList, BookCategory, BookDetail]
   }
+  setHasMany({child, father, foreignKey, sourceKey}) {
+    // 一对多关联
+    const childModel = this.db.models[child]
+    const fatherModel = this.db.models[father]
+    fatherModel.hasMany(childModel, {foreignKey, sourceKey})
+    childModel.belongsTo(fatherModel, {foreignKey, targetKey: sourceKey})
+  }
   hasMany() {
-    // const BookCategoryName = new BookCategory()
-    const bookCategoryModel = this.db.models[this.bookCategoryModel.modelName]
-    const bookListModel = this.db.models[this.bookListModel.modelName]
-    bookCategoryModel.hasMany(this.bookListModel, {foreignKey: 'categoryId', sourceKey: 'id'})
-    bookListModel.belongsTo(this.bookCategoryModel, {foreignKey: 'categoryId', targetKey: 'id'})
-    console.log('----------------hasMany')
+    // 关联
+    this.setHasMany({
+      child: this.bookListModel.modelName,
+      father: this.bookCategoryModel.modelName,
+      foreignKey: 'categoryId',
+      sourceKey: 'id'
+    })
+    this.setHasMany({
+      child: this.BookDetailModel.modelName,
+      father: this.bookCategoryModel.modelName,
+      foreignKey: 'categoryId',
+      sourceKey: 'id'
+    })
+    this.setHasMany({
+      child: this.BookDetailModel.modelName,
+      father: this.bookListModel.modelName,
+      foreignKey: 'bookId',
+      sourceKey: 'id'
+    })
   }
 }
 module.exports = Init
