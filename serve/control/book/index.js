@@ -70,7 +70,7 @@ class Biquge extends Reptile {
     }
   }
   async crawlingBookDetail() {
-    const bookList = await this.getBook({bookName: '神秀之主'})
+    const bookList = await this.getBook({bookName: '神秀'})
     console.log(bookList)
   }
   getCategory(params) {

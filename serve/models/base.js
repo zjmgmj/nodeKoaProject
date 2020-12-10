@@ -1,4 +1,4 @@
-const {DataTypes} = require('sequelize')
+const {DataTypes, Op} = require('sequelize')
 const db = require('../database/db')
 
 class Base {
@@ -16,10 +16,19 @@ class Base {
     console.log('add success')
     return {code: 200}
   }
-  async findAll(where, modelName) { // 查询
+  async findAll(params, modelName, attributes, order) { // 查询
     const modelDb = this.db.models[modelName]
     const config = {raw: true}
-    if(where) config.where = where
+    
+    if(params) {
+      const where = {}
+      Object.keys(params).forEach(key => {
+        where[key] = {$like: `%${params[key]}%`}
+      })
+      config.where = where
+    }
+    if (attributes) config.attributes = attributes
+    if (order) config.order = order
     const list = await modelDb.findAll(config)
     console.log('findAll success')
     return list

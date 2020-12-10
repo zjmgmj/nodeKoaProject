@@ -1,7 +1,7 @@
-const sequelize = require('sequelize')
+const {Sequelize, Op} = require('sequelize')
 const config = require('./config.js')
 
-const db = new sequelize.Sequelize(config.database, config.username, config.pw, { 
+const db = new Sequelize(config.database, config.username, config.pw, { 
   host: config.host, 
   dialect: config.dialect, 
   pool: {
@@ -12,7 +12,8 @@ const db = new sequelize.Sequelize(config.database, config.username, config.pw, 
   logging: true,
   define: {
     freezeTableName: true
-  }
+  },
+  $like: Op.like
 })
 
 module.exports = db
