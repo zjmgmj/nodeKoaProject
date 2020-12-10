@@ -28,12 +28,6 @@ class Init extends Base {
     })
     this.setHasMany({
       child: this.BookDetailModel.modelName,
-      father: this.bookCategoryModel.modelName,
-      foreignKey: 'categoryId',
-      sourceKey: 'id'
-    })
-    this.setHasMany({
-      child: this.BookDetailModel.modelName,
       father: this.bookListModel.modelName,
       foreignKey: 'bookId',
       sourceKey: 'id'

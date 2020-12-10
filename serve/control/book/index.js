@@ -33,52 +33,52 @@ class Biquge extends Reptile {
     })
     this.CategoryModel.add(categoryList, this.CategoryModel.modelName)
   }
+  async crawlingBookList(item){
+    await this.init(item.source)
+    // await this.page.waitForNavigation()
+    const {list, url} = await this.page.$$eval('#newscontent .l li span.s2 a', elemets => {
+      const list = []
+      return new Promise(resolve => {
+        for (let i=0; i<elemets.length; i++) {
+          const el = elemets[i]
+          if(!el.href) continue
+          list.push({
+            bookName: el.outerText,
+            source: el.href
+          })
+        }
+        resolve({list, url: document.querySelector('#pagelink .next').href})
+      })
+    })
+    for(let i=0; i<list.length; i++){
+      list[i].categoryId = item.id
+    }
+    this.BookList.add(list, this.BookList.modelName)
+    if(item.source !== url) {
+      item.source = url
+      const timeOut = setTimeout(() => {
+        this.crawlingBookList(item)
+        clearTimeout(timeOut)
+      }, 3000)
+    }   
+  }
+  async crawlingBook() {
+    // 爬取名称
+    const categoryList = await this.getCategory()
+    for(let i=0;i<categoryList.length;i++){
+      this.crawlingBookList(categoryList[i])
+    }
+  }
+  async crawlingBookDetail() {
+    const bookList = await this.getBook({bookName: '神秀之主'})
+    console.log(bookList)
+  }
   getCategory(params) {
     return this.CategoryModel.findAll(params, this.CategoryModel.modelName)
   }
-  async crawlingBookList() {
-    // 爬取名称
-    const categoryList = await this.getCategory()
-    const bookList = []
-    // const newList = [categoryList[0], categoryList[1]]
-    const promiseList = []
-    for(let i=0;i<categoryList.length;i++){
-      await this.init(categoryList[i].source)
-      promiseList.push(new Promise(resolve => {
-          this.page.$$eval('#newscontent li span.s2 a', elemets => {
-            const list = []
-            return new Promise(resolve => {
-              for (let i=0; i<elemets.length; i++) {
-                const el = elemets[i]
-                list.push({
-                  bookName: el.outerText,
-                  source: el.href
-                })
-              }
-              resolve(list)
-            })
-          }).then(list => {
-            resolve({list, id:categoryList[i].id})
-          })
-        })
-      )
-    }
-    Promise.all(promiseList).then((res) => {
-      res.map(({list, id}) => {
-        for(let i=0; i<list.length; i++){
-          list[i].categoryId = id
-        }
-        bookList.push(...list)
-      })
-      this.BookList.add(bookList, this.BookList.modelName)
-    }).catch(err => {
-      console.error(err)
-    })
+  getBook(params){
+    return this.BookList.findAll(params, this.BookList.modelName)
   }
-  getData() {
-    // this.page
-  }
-  async start() {}
 }
 
 module.exports = Biquge

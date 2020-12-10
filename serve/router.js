@@ -23,7 +23,11 @@ module.exports = {
     })
     router.get('/biquge/crawlingBookList', async () => {
       const book = new BookControl()
-      book.crawlingBookList()
+      book.crawlingBook()
+    })
+    router.get('/biquge/crawlingBookDetail', async () => {
+      const book = new BookControl()
+      book.crawlingBookDetail()
     })
     router.get('/destroyAll/:modelName', async (ctx) => {
       const book = new BookControl()

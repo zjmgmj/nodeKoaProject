@@ -17,7 +17,7 @@ class Control extends Reptile {
       }
     }
     // this.url = 'https://juejin.cn/'
-    this.cookieStr = ''
+    this.cookieStr = '' // 设置缓存免登录
   }
   getData() {
     return new Promise(resolve => {

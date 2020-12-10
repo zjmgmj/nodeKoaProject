@@ -16,6 +16,7 @@ class Reptile {
     if(this.cookieStr) {
       await this.setCookie(this.cookieStr, '.juejin.cn')
     }
+    // await this.page.setDefaultNavigationTimeout(0) // 取消导航超时限制
     await this.page.goto(url)
     await this.page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36')
     await this.page.setRequestInterception(true) // 启用请求拦截器
@@ -37,9 +38,6 @@ class Reptile {
     await Promise.all(cookies.map(pair=>{
         return page.setCookie(pair)
     }))
-  }
-  async start (params) {
-    await this.init()
   }
 }
 
