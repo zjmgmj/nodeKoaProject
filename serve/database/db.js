@@ -13,7 +13,9 @@ const db = new Sequelize(config.database, config.username, config.pw, {
   define: {
     freezeTableName: true
   },
-  $like: Op.like
+  operatorsAliases: { // 别名
+    $like: Op.like
+  }
 })
 
 module.exports = db
