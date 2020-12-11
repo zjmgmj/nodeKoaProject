@@ -1,6 +1,7 @@
 const Reptile = require('../Reptile')
 const CategoryModel = require('../../models/Book/Category')
 const BookList = require('../../models/Book/BookList')
+const BookDetail = require('../../models/Book/Detail')
 class Biquge extends Reptile {
   constructor() {
     super()
@@ -14,6 +15,7 @@ class Biquge extends Reptile {
     }
     this.CategoryModel = new CategoryModel()
     this.BookList = new BookList()
+    this.BookDetail = new BookDetail()
   }
   async crawlingCategory() {
     // 获取分类
@@ -69,9 +71,51 @@ class Biquge extends Reptile {
       this.crawlingBookList(categoryList[i])
     }
   }
-  async crawlingBookDetail() {
-    const bookList = await this.getBook({bookName: '神秀'})
-    console.log(bookList)
+  async openBookDetail(item) {
+    await this.init(item.source)
+    const data = await this.page.$eval('#content', (el) => {
+      return new Promise(resolve => {
+        resolve(el.outerText)
+      })
+    })
+    return data
+  }
+  async openBookMenu (item) {
+    await this.init(item.source)
+    const list = await this.page.$$eval('#list dl dd a', elemets => {
+      return new Promise (resolve => {
+        const list = []
+        for(let i=0; i<elemets.length; i++){
+          const el = elemets[i]
+          list.push({
+            source: el.href,
+            name: el.outerText
+          })
+        }
+        resolve(list)
+      })
+    })
+    let contentList = []
+    for(let i=0; i<list.length; i++){
+      const content = await this.openBookDetail(list[i])
+      contentList.push({
+        name: list[i].name,
+        bookId: item.id,
+        content
+      })
+      if(contentList.length > 10) {
+        this.BookDetail.add(contentList, this.BookDetail.modelName)
+        contentList = []
+      }
+    }
+  }
+  async crawlingBookDetail(bookName) { // 爬取详情
+    const bookList = await this.getBook({bookName})
+    this.openBookMenu(bookList[0])
+    // for(let i=0; i<bookList.length; i++){
+    //   const item = bookList[i]
+    //   this.openBookMenu(item)
+    // }
   }
   getCategory(params) {
     return this.CategoryModel.findAll(params, this.CategoryModel.modelName)

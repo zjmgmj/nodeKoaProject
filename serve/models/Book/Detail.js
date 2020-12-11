@@ -11,14 +11,9 @@ class Detail extends Base {
       //   type: this.DataTypes.BIGINT,
       //   comment: '书籍ID'
       // },
-      id: {
-        type: this.DataTypes.BIGINT,
-        autoIncrement: false,
-        primaryKey: true
-      },
       name: {
         type: this.DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         comment: '标题'
       },
       content: {
