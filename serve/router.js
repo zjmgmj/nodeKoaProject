@@ -51,18 +51,14 @@ module.exports = {
     router.get('/websocket', async (ctx, next) => {
       const ws = new WebSocket()
       ws.createServer()
-      ctx.redirect('/websocketView')
-      await next()
-    })
-    router.get("/websocketView", async (ctx, next) => {
       await ctx.render('./webSocket/test.html')
       await next()
     })
     
     app.use(views(path.resolve(__dirname, 'view'), {
       map: { html: 'ejs' }
-    }))
-    app.use(serve(path.resolve(__dirname, 'view')))
+    })) // 模板引擎
+    app.use(serve(path.resolve(__dirname, 'view'))) // 静态文件
     app.use(router.routes())
     app.use(router.allowedMethods())
     app.listen(3000, () => {
