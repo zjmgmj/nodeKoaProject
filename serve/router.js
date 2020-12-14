@@ -1,9 +1,17 @@
-const BookControl = require('./control/book')
-const JuejinControl = require('./control/juejin')
+
 const Koa = require('koa')
 const Router = require('koa-router')
+const path = require('path')
+const serve  = require('koa-static')
+const views = require('koa-views')
+
+const WebSocket = require('./webSocket')
+const fs = require('fs')
 const router = new Router()
 const app = new Koa()
+
+const BookControl = require('./control/book')
+const JuejinControl = require('./control/juejin')
 
 module.exports = {
   start() {
@@ -40,16 +48,23 @@ module.exports = {
       book.BookList.destroyAll(modelName)
       await next()
     })
-    app.use((ctx, next) => {
-      console.log('-----------start')
-      next()
+    router.get('/websocket', async (ctx, next) => {
+      const ws = new WebSocket()
+      ws.createServer()
+      ctx.redirect('/websocketView')
+      await next()
     })
+    router.get("/websocketView", async (ctx, next) => {
+      await ctx.render('./webSocket/test.html')
+      await next()
+    })
+    
+    app.use(views(path.resolve(__dirname, 'view'), {
+      map: { html: 'ejs' }
+    }))
+    app.use(serve(path.resolve(__dirname, 'view')))
     app.use(router.routes())
     app.use(router.allowedMethods())
-    app.use((ctx, next) => {
-      console.log('-----------end')
-      next()
-    })
     app.listen(3000, () => {
       console.log('--------------listen')
     })
