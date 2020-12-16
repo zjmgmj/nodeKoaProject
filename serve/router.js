@@ -5,8 +5,7 @@ const path = require('path')
 const serve  = require('koa-static')
 const views = require('koa-views')
 
-const WebSocket = require('./webSocket')
-const fs = require('fs')
+// const WebSocket = require('./control/webSocket')
 const router = new Router()
 const app = new Koa()
 
@@ -49,8 +48,6 @@ module.exports = {
       await next()
     })
     router.get('/websocket', async (ctx, next) => {
-      const ws = new WebSocket()
-      ws.createServer()
       await ctx.render('./webSocket/test.html')
       await next()
     })

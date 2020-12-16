@@ -9,3 +9,8 @@ dbModel.init()
 
 // console.log('routers', router)
 Routers.start()
+
+
+const WebSocket = require('./serve/control/webSocket')
+const ws = new WebSocket()
+ws.createServer()
