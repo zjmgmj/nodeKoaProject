@@ -11,8 +11,6 @@ const server = http.createServer(app.callback())
 const dbModel = new DbModel()
 dbModel.init()
 
-
-
 const routers = new Routers(app)
 routers.start()
 

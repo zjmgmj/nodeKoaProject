@@ -7,15 +7,15 @@ paramStrList.map(item => {
   params[list[0]] = list[1]
 })
 
-const socket = io({
+// const host = 'http://3616g7m803.zicp.vip'
+const host = '/'
+
+const socket = io(host, {
   path: '/socket',
   transports: ['websocket']
 })
 
-socket.on('connection', () => { // 监听连接时
-  console.log('---', socket.id)
-  socket.emit('new message', 'hello') // 发送
-})
+socket.emit('login', JSON.stringify({userId: params.userId, userName: params.userName})) // 发送
 
 socket.on('disconnect', () => {
   console.log('disconnect')
@@ -26,7 +26,6 @@ const sendMessage = (message) => {
 }
 
 socket.on('message', res => { // 监听接收时
-  console.log('message', res)
   const data = JSON.parse(res)
   const pDom = document.createElement('div')
   pDom.textContent = data.message
@@ -36,4 +35,10 @@ socket.on('message', res => { // 监听接收时
 document.getElementById('send').onclick= function () {
   params.message = document.getElementById('sendVal').value
   sendMessage(params)
+}
+document.getElementById('signOut').onclick= function () {
+  socket.disconnect()
+}
+document.getElementById('login').onclick= function () {
+  socket.connect()
 }
